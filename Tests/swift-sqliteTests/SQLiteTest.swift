@@ -8,6 +8,8 @@
 import XCTest
 @testable import swift_sqlite
 
+private let kSqlCreateTable = "CREATE TABLE user(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT);"
+
 final class SQLiteTest: XCTestCase {
 
     // MARK: -
@@ -17,6 +19,14 @@ final class SQLiteTest: XCTestCase {
     // MARK: -
 
     override func setUp() {
+
+        let url = URL(string: dbPath())!
+
+        do {
+             try FileManager.default.removeItem(at: url)
+        } catch {
+            print("Can't delete file: \(error)")
+        }
 
         sut = SQLite()
     }
@@ -42,8 +52,22 @@ final class SQLiteTest: XCTestCase {
     func testCreateTable() {
 
         // Given
-        let sql = "CREATE TABLE user(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT);"
         _ = sut.open(dbPath())
+
+        // When
+        let result = sut.execute(kSqlCreateTable)
+
+        // Then
+        XCTAssertEqual(0, result)
+    }
+
+    // MARK: - Insert
+
+    func testInsert() {
+        // Given
+        _ = sut.open(dbPath())
+        _ = sut.execute(kSqlCreateTable)
+        let sql = "INSERT INTO user (first_name, last_name) VALUES ('Deve', 'Cooper');"
 
         // When
         let result = sut.execute(sql)
