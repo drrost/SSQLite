@@ -39,7 +39,7 @@ class SQLite {
 
     func execute(_ expression: String) -> Int {
 
-        // Create a pointer to statement
+        // Declare a pointer to statement
         var statement: OpaquePointer?
 
         defer {
@@ -64,9 +64,53 @@ class SQLite {
         return 0
     }
 
-    func create(_ path: String) {
+    func select(_ expression: String) -> QueryResult {
 
+        // Declare a pointer to statement
+        var statement: OpaquePointer?
+
+        defer {
+            // Free system resources
+            sqlite3_finalize(statement)
+        }
+
+        // Declare result variable
+        var queryResult = QueryResult()
+
+        // Prepare SQL statement
+        queryResult.errorCode = Int(sqlite3_prepare_v2(db, expression, -1, &statement, nil))
+        guard queryResult.errorCode == SQLITE_OK else {
+
+            // Compose final error message
+            let nativeErrorMessage = String(cString: sqlite3_errmsg(db))
+            queryResult.errorMessage = "`sqlite3_prepare_v2(...)` function failed.\n" +
+                "    With SQLite error code: \"\(queryResult.errorCode)\",\n" +
+                "    With SQLite error message: \"\(nativeErrorMessage)\",\n" +
+                "    For expression \"\(expression)\""
+
+            // Log error message
+            logger.log(queryResult.errorMessage)
+
+            return queryResult
+        }
+
+        //
+        while sqlite3_step(statement) == SQLITE_ROW {
+            queryResult.rows.append("")
+        }
+
+        return queryResult
     }
+
+}
+
+// MARK: - Helpers
+
+struct QueryResult {
+
+    var errorCode: Int = 0
+    var errorMessage: String = ""
+    var rows: [Any] = [Any]()
 }
 
 protocol ILogger {

@@ -79,9 +79,15 @@ final class SQLiteTest: XCTestCase {
 
     func testSelect() {
         // Given
-        
+        _ = sut.open(dbPath() + kUserDbName)
+        let sql = "SELECT * FROM user;"
+
         // When
+        let result = sut.select(sql)
+
         // Then
+        XCTAssertEqual(0, result.errorCode)
+        XCTAssertEqual(15, result.rows.count)
     }
 }
 
