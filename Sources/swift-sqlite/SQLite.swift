@@ -28,11 +28,7 @@ class SQLite {
     func open(_ path: String) -> Bool {
 
         // Open (or create) data base
-        if sqlite3_open(path, &db) == SQLITE_OK {
-            return true
-        } else {
-            return false
-        }
+        sqlite3_open(path, &db) == SQLITE_OK
     }
 
     // Executes an SQL exression on database
@@ -89,19 +85,8 @@ class SQLite {
         }
 
         // Fetch colum names
-        let count = sqlite3_column_count(statement)
-        for i in 0 ..< count {
-
-            // Handle names
-            if
-                let namePtr = sqlite3_column_name(statement, i),
-                let name = NSString(utf8String: namePtr) {
-
-                queryResult.columnNames.append(name as String)
-            } else {
-                queryResult.columnNames.append("\(i)")
-            }
-        }
+        queryResult.columnNames = fetchColumnNames(from: statement)
+        let count = queryResult.columnNames.count
 
         // Fetch data
         while sqlite3_step(statement) == SQLITE_ROW {
