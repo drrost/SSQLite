@@ -109,7 +109,7 @@ class SQLite {
             var row = Row()
 
             // Iterrate all the values in the row
-            for i in 0 ..< count {
+            for i in 0 ..< Int32(count) {
                 let columnType = sqlite3_column_type(statement, i)
 
                 switch columnType {
@@ -144,6 +144,31 @@ class SQLite {
 }
 
 // MARK: - Private
+
+private extension SQLite {
+
+    func fetchColumnNames(from statement: OpaquePointer?) -> [String] {
+
+        // Declare variables
+        var columnNames = [String]()
+        let count = sqlite3_column_count(statement)
+
+        // Iterate the columns
+        for i in 0 ..< count {
+
+            if
+                let namePtr = sqlite3_column_name(statement, i),
+                let name = NSString(utf8String: namePtr) {
+
+                columnNames.append(name as String)
+            } else {
+                columnNames.append("\(i)")
+            }
+        }
+
+        return columnNames
+    }
+}
 
 private extension QueryResult {
 
