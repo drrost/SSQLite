@@ -86,9 +86,46 @@ class SQLite {
 
         // Fetch colum names
         queryResult.columnNames = fetchColumnNames(from: statement)
-        let count = queryResult.columnNames.count
 
         // Fetch data
+        queryResult.rows = fetchData(from: statement, queryResult.columnNames.count)
+
+        return queryResult
+    }
+
+}
+
+// MARK: - Private
+
+private extension SQLite {
+
+    func fetchColumnNames(from statement: OpaquePointer?) -> [String] {
+
+        // Declare variables
+        var columnNames = [String]()
+        let count = sqlite3_column_count(statement)
+
+        // Iterate the columns
+        for i in 0 ..< count {
+
+            if
+                let namePtr = sqlite3_column_name(statement, i),
+                let name = NSString(utf8String: namePtr) {
+
+                columnNames.append(name as String)
+            } else {
+                columnNames.append("\(i)")
+            }
+        }
+
+        return columnNames
+    }
+
+    func fetchData(from statement: OpaquePointer?, _ count: Int) -> [Row] {
+
+        var rows = [Row]()
+
+        // Iterate through all the rows
         while sqlite3_step(statement) == SQLITE_ROW {
 
             var row = Row()
@@ -120,38 +157,10 @@ class SQLite {
                 }
             }
 
-            queryResult.rows.append(row)
+            rows.append(row)
         }
 
-        return queryResult
-    }
-
-}
-
-// MARK: - Private
-
-private extension SQLite {
-
-    func fetchColumnNames(from statement: OpaquePointer?) -> [String] {
-
-        // Declare variables
-        var columnNames = [String]()
-        let count = sqlite3_column_count(statement)
-
-        // Iterate the columns
-        for i in 0 ..< count {
-
-            if
-                let namePtr = sqlite3_column_name(statement, i),
-                let name = NSString(utf8String: namePtr) {
-
-                columnNames.append(name as String)
-            } else {
-                columnNames.append("\(i)")
-            }
-        }
-
-        return columnNames
+        return rows
     }
 }
 
