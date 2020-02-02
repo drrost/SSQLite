@@ -108,13 +108,18 @@ class SQLite {
 
             var row = Row()
 
+            // Iterrate all the values in the row
             for i in 0 ..< count {
                 let columnType = sqlite3_column_type(statement, i)
 
                 switch columnType {
+
+                // Fetch Integer
                 case SQLITE_INTEGER:
                     let value = sqlite3_column_int64(statement, i)
                     row.values.append(value)
+
+                // Fetch Text
                 case SQLITE_TEXT:
 
                      if let valuePtr = sqlite3_column_text(statement, i) {
