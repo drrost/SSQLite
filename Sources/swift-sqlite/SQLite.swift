@@ -82,13 +82,7 @@ class SQLite {
         guard queryResult.errorCode == SQLITE_OK else {
 
             // Compose final error message
-            let nativeErrorMessage = String(cString: sqlite3_errmsg(db))
-            queryResult.errorMessage = "`sqlite3_prepare_v2(...)` function failed.\n" +
-                "    With SQLite error code: \"\(queryResult.errorCode)\",\n" +
-                "    With SQLite error message: \"\(nativeErrorMessage)\",\n" +
-                "    For expression \"\(expression)\""
-
-            // Log error message
+            queryResult.composeErrorMessage(with: "sqlite3_prepare_v2", expression, db)
             logger.log(queryResult.errorMessage)
 
             return queryResult
@@ -102,6 +96,21 @@ class SQLite {
         return queryResult
     }
 
+}
+
+// MARK: - Private
+
+private extension QueryResult {
+
+    mutating func composeErrorMessage(with function: String, _ expression: String, _ db: OpaquePointer?) {
+
+        // Compose final error message
+        let nativeErrorMessage = String(cString: sqlite3_errmsg(db))
+        errorMessage = "`\(function)(...)` function failed.\n" +
+            "    With SQLite error code: \"\(errorCode)\",\n" +
+            "    With SQLite error message: \"\(nativeErrorMessage)\",\n" +
+            "    For expression \"\(expression)\""
+    }
 }
 
 // MARK: - Helpers
