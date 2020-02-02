@@ -115,12 +115,20 @@ class SQLite {
                 case SQLITE_INTEGER:
                     let value = sqlite3_column_int64(statement, i)
                     row.values.append(value)
+                case SQLITE_TEXT:
+
+                     if let valuePtr = sqlite3_column_text(statement, i) {
+
+                        let value = String(cString: valuePtr)
+                        row.values.append(value as String)
+                    } else {
+                        row.values.append(NSNull())
+                    }
+
                 default:
                     print("TODO for: \(columnType)")
                 }
             }
-
-
 
             queryResult.rows.append(row)
         }

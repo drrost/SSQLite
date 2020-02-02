@@ -91,13 +91,16 @@ final class SQLiteTest: XCTestCase {
 
         var users = [User]()
         for row in result.rows {
-            var user = User(with: row)
-            users.append(user)
+            users.append(User(with: row))
         }
 
         for i in 0 ..< users.count {
             XCTAssertEqual(i + 1, users[i].id)
         }
+
+        XCTAssertEqual("Ramsey", users[0].firstName)
+        XCTAssertEqual("Joiner", users[0].lastName)
+        XCTAssertEqual(96, users[0].age)
     }
 }
 
@@ -119,11 +122,15 @@ struct User {
     var id: Int = 0
     var firstName: String = ""
     var lastName: String = ""
+    var age: Int = 0
 
     // MARK: - Init
 
     init(with row: Row) {
 
         id = Int(row.values[0] as! Int64)
+        firstName = row.values[1] as! String
+        lastName = row.values[2] as! String
+        age = Int(row.values[3] as! Int64)
     }
 }
