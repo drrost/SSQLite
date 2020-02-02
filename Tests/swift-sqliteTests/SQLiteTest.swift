@@ -10,7 +10,7 @@ import XCTest
 
 private let kEmptyDbName = "empty.db"
 private let kUserDbName = "user.db"
-private let kSqlCreateTable = "CREATE TABLE user(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT);"
+private let kSqlCreateTable = "CREATE TABLE user(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, age INTETER);"
 
 final class SQLiteTest: XCTestCase {
 
@@ -66,7 +66,7 @@ final class SQLiteTest: XCTestCase {
         // Given
         _ = sut.open(dbPath() + kEmptyDbName)
         _ = sut.execute(kSqlCreateTable)
-        let sql = "INSERT INTO user (first_name, last_name) VALUES ('Deve', 'Cooper');"
+        let sql = "INSERT INTO user (first_name, last_name, age) VALUES ('Dave', 'Cooper', 46);"
 
         // When
         let result = sut.execute(sql)
@@ -87,7 +87,15 @@ final class SQLiteTest: XCTestCase {
 
         // Then
         XCTAssertEqual(0, result.errorCode)
-        XCTAssertEqual(15, result.rows.count)
+        XCTAssertEqual(16, result.rows.count)
+
+        var users = [User]()
+        for row in result.rows {
+            var user = User(with: row)
+            users.append(user)
+        }
+
+        XCTAssertEqual(0, users[0].id)
     }
 }
 
@@ -99,5 +107,21 @@ private extension SQLiteTest {
         let file = URL(fileURLWithPath: #file)
         let directory = file.deletingLastPathComponent()
         return directory.absoluteString + "../db/"
+    }
+}
+
+struct User {
+
+    // MARK: - Variables
+
+    var id: Int = 0
+    var firstName: String = ""
+    var lastName: String = ""
+
+    // MARK: - Init
+
+    init(with row: Row) {
+
+
     }
 }

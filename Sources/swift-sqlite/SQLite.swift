@@ -88,9 +88,33 @@ class SQLite {
             return queryResult
         }
 
-        //
+        // Fetch colum names
+        let count = sqlite3_column_count(statement)
+        for i in 0 ..< count {
+
+            // Handle names
+            if
+                let namePtr = sqlite3_column_name(statement, i),
+                let name = NSString(utf8String: namePtr) {
+
+                queryResult.columnNames.append(name as String)
+            } else {
+                queryResult.columnNames.append("\(i)")
+            }
+        }
+
+        // Fetch data
         while sqlite3_step(statement) == SQLITE_ROW {
-            queryResult.rows.append("")
+            let row = Row()
+
+            for i in 0 ..< count {
+                let columnType = sqlite3_column_type(statement, i)
+                queryResult.columnTypes.append(columnType)
+            }
+
+
+
+            queryResult.rows.append(row)
         }
 
         return queryResult
@@ -119,7 +143,14 @@ struct QueryResult {
 
     var errorCode: Int = 0
     var errorMessage: String = ""
-    var rows: [Any] = [Any]()
+    var rows: [Row] = [Row]()
+    var columnNames = [String]()
+    var columnTypes = [Any]()
+}
+
+struct Row {
+
+    var columnNames = [String]()
 }
 
 protocol ILogger {
