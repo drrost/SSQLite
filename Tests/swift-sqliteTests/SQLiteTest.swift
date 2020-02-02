@@ -95,7 +95,9 @@ final class SQLiteTest: XCTestCase {
             users.append(user)
         }
 
-        XCTAssertEqual(0, users[0].id)
+        for i in 0 ..< users.count {
+            XCTAssertEqual(i + 1, users[i].id)
+        }
     }
 }
 
@@ -122,6 +124,6 @@ struct User {
 
     init(with row: Row) {
 
-
+        id = Int(row.values[0] as! Int64)
     }
 }

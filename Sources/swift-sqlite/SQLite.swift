@@ -105,11 +105,19 @@ class SQLite {
 
         // Fetch data
         while sqlite3_step(statement) == SQLITE_ROW {
-            let row = Row()
+
+            var row = Row()
 
             for i in 0 ..< count {
                 let columnType = sqlite3_column_type(statement, i)
-                queryResult.columnTypes.append(columnType)
+
+                switch columnType {
+                case SQLITE_INTEGER:
+                    let value = sqlite3_column_int64(statement, i)
+                    row.values.append(value)
+                default:
+                    print("TODO for: \(columnType)")
+                }
             }
 
 
@@ -151,6 +159,7 @@ struct QueryResult {
 struct Row {
 
     var columnNames = [String]()
+    var values = [Any]()
 }
 
 protocol ILogger {
