@@ -33,34 +33,7 @@ class SQLite {
 
     // Executes an SQL exression on database
 
-    func execute(_ expression: String) -> Int {
-
-        // Declare a pointer to statement
-        var statement: OpaquePointer?
-
-        defer {
-            // Free system resources
-            sqlite3_finalize(statement)
-        }
-
-        // Prepare SQL statement
-        var result = sqlite3_prepare_v2(db, expression, -1, &statement, nil)
-        guard result == SQLITE_OK else {
-            logger.log("`sqlite3_prepare_v2(...)` function failed with code: \"\(result)\", for expression \(expression)")
-            return Int(result)
-        }
-
-        // Execute the statement
-        result = sqlite3_step(statement)
-        guard result == SQLITE_DONE else {
-            logger.log("SQL execution failed. `sqlite3_step(...)` function failed with code: \"\(result)\", for expression \(expression)")
-            return Int(result)
-        }
-
-        return 0
-    }
-
-    func select(_ expression: String) -> QueryResult {
+    func execute(_ expression: String) -> QueryResult {
 
         // Declare a pointer to statement
         var statement: OpaquePointer?

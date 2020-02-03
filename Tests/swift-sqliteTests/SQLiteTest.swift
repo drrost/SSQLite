@@ -57,7 +57,7 @@ final class SQLiteTest: XCTestCase {
         let result = sut.execute(kSqlCreateTable)
 
         // Then
-        XCTAssertEqual(0, result)
+        XCTAssertEqual(0, result.errorCode)
     }
 
     // MARK: - Insert
@@ -72,7 +72,7 @@ final class SQLiteTest: XCTestCase {
         let result = sut.execute(sql)
 
         // Then
-        XCTAssertEqual(0, result)
+        XCTAssertEqual(0, result.errorCode)
     }
 
     // MARK: - Select
@@ -83,7 +83,7 @@ final class SQLiteTest: XCTestCase {
         let sql = "SELECT * FROM user;"
 
         // When
-        let result = sut.select(sql)
+        let result = sut.execute(sql)
 
         // Then
         XCTAssertEqual(0, result.errorCode)
