@@ -31,6 +31,12 @@ class SQLite {
         sqlite3_open(path, &db) == SQLITE_OK
     }
 
+    // Closes database connection
+
+    func close() -> Bool {
+        sqlite3_close_v2(db) == SQLITE_OK
+    }
+
     // Executes an SQL exression on database
 
     func execute(_ expression: String) -> QueryResult {

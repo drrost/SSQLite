@@ -14,11 +14,11 @@ private let kSqlCreateTable = "CREATE TABLE user(id INTEGER PRIMARY KEY, first_n
 
 final class SQLiteTest: XCTestCase {
 
-    // MARK: -
+    // MARK: - Variables
 
     var sut: SQLite!
 
-    // MARK: -
+    // MARK: - Tests routines
 
     override func setUp() {
 
@@ -35,7 +35,7 @@ final class SQLiteTest: XCTestCase {
 
     // MARK: - Opening
 
-    func testOpeningSucceede() {
+    func testOpeningSucceeded() {
 
         // Given
 
@@ -106,7 +106,7 @@ final class SQLiteTest: XCTestCase {
 
 // MARK: - Helpers
 
-private extension SQLiteTest {
+extension XCTestCase {
 
     func dbPath() -> String {
         let file = URL(fileURLWithPath: #file)
