@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import swift_sqlite
+@testable import SSQLite
 
 private let kEmptyDbName = "empty.db"
 private let kUserDbName = "user.db"
