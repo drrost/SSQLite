@@ -125,6 +125,11 @@ private extension SQLite {
                     let value = sqlite3_column_int64(statement, i)
                     row.values.append(value)
 
+                // Fetch Float
+                case SQLITE_FLOAT:
+                    let value = sqlite3_column_double(statement, i)
+                    row.values.append(value)
+
                 // Fetch Text
                 case SQLITE_TEXT:
 
@@ -135,6 +140,10 @@ private extension SQLite {
                     } else {
                         row.values.append(NSNull())
                     }
+
+                // Fetch NULL
+                case SQLITE_NULL:
+                    row.values.append(NSNull())
 
                 default:
                     print("TODO for: \(columnType)")
