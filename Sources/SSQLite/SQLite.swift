@@ -31,6 +31,11 @@ class SQLite {
         sqlite3_open(path, &db) == SQLITE_OK
     }
 
+    func openExisted(_ path: String) -> Bool {
+
+        sqlite3_open_v2(path, &db, SQLITE_OPEN_READWRITE, nil) == SQLITE_OK
+    }
+
     // Closes database connection
 
     func close() -> Bool {

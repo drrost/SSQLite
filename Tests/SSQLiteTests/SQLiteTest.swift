@@ -46,6 +46,26 @@ final class SQLiteTest: XCTestCase {
         XCTAssertTrue(result)
     }
 
+    func testOpenExisted_FileAbsent_False() {
+        // Given
+        // When
+        let result = sut.openExisted("./absent.db")
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
+    func testOpenExisted_FileExists_False() {
+        // Given
+        let path = dbPath() + kUserDbName
+
+        // When
+        let result = sut.openExisted(path)
+
+        // Then
+        XCTAssertTrue(result)
+    }
+
     // MARK: - Create a table
 
     func testCreateTable() {
