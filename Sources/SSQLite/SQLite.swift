@@ -72,7 +72,7 @@ class SQLite {
         queryResult.columnNames = fetchColumnNames(from: statement)
 
         // Fetch data
-        queryResult.rows = fetchData(from: statement, queryResult.columnNames.count)
+        queryResult.rows = fetchData(from: statement, queryResult.columnNames)
 
         return queryResult
     }
@@ -105,7 +105,7 @@ private extension SQLite {
         return columnNames
     }
 
-    func fetchData(from statement: OpaquePointer?, _ count: Int) -> [Row] {
+    func fetchData(from statement: OpaquePointer?, _ columnNames: [String]) -> [Row] {
 
         var rows = [Row]()
 
@@ -113,9 +113,10 @@ private extension SQLite {
         while sqlite3_step(statement) == SQLITE_ROW {
 
             var row = Row()
+            row.columnNames = columnNames
 
             // Iterrate all the values in the row
-            for i in 0 ..< Int32(count) {
+            for i in 0 ..< Int32(columnNames.count) {
                 let columnType = sqlite3_column_type(statement, i)
 
                 switch columnType {
@@ -185,6 +186,15 @@ struct Row {
 
     var columnNames = [String]()
     var values = [Any]()
+
+    func value(_ column: String ) -> Any {
+        for (i, name) in columnNames.enumerated() {
+            if name == column {
+                return values[i]
+            }
+        }
+        return NSNull()
+    }
 }
 
 protocol ILogger {

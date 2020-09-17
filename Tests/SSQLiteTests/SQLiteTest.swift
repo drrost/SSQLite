@@ -55,6 +55,15 @@ final class SQLiteTest: XCTestCase {
         XCTAssertFalse(result)
     }
 
+    func testOpenExisted2_FileAbsent_False() {
+        // Given
+        // When
+        let result = sut.openExisted("./dd")
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
     func testOpenExisted_FileExists_False() {
         // Given
         let path = dbPath() + kUserDbName
@@ -148,9 +157,9 @@ struct User {
 
     init(with row: Row) {
 
-        id = Int(row.values[0] as! Int64)
-        firstName = row.values[1] as! String
-        lastName = row.values[2] as! String
-        age = Int(row.values[3] as! Int64)
+        id = Int(row.value("id") as! Int64)
+        firstName = row.value("first_name") as! String
+        lastName = row.value("last_name") as! String
+        age = Int(row.value("age") as! Int64)
     }
 }
