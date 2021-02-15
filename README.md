@@ -3,13 +3,28 @@
 The package simplifies working with SQLite DB file for Swift applications. May
 be used on any platform that suports Swift - iOS, macOS, Linux.
 
+A new version is under construction. It's a try to implement a part of JDBC
+approach. It should at least:
+
+* Allow performing CRUD operations.
+* Work with both - Statement and PreparedStatement.
+
+The old version still works.
+
 ## Dependencies
 
 * SQLite3
 
 ## How to use
 
+```swift
+
+```
+
+## How to add
+
 ### Xcode project
+
 * Add the package to your project. For Xcode project
   select `<porject>` > `<project>` > `Swift Packages` > `+`.
 
