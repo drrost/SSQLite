@@ -31,5 +31,34 @@ class DriverManagerTests: XCTestCase {
         }
     }
 
+    func testInvalidUrlThrows() {
+        // Given
+        let url: String? = ""
+
+        // When
+        XCTAssertThrowsError(try DriverManager.getConnection(url), "") { error in
+
+            // Then
+            guard let error = error as? SQLException else {
+                XCTAssertTrue(false, "error must be type of SQLException")
+                return
+            }
+
+            XCTAssertEqual(error.reason, "The url is not valid")
+            XCTAssertEqual(error.SQLState, "08002")
+        }
+    }
+
+    func testNoFileUrlThrows() {
+        // Given
+        // When
+        // Then
+    }
+
+    func testCorrectUrlCreatesConnection() {
+        // Given
+        // When
+        // Then
+    }
 }
 
