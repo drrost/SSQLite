@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import RDError
 
-public class SQLException: Error {
+public class SQLException: RDError {
 
     public let reason: String
     public let SQLState: String?
@@ -15,5 +16,6 @@ public class SQLException: Error {
     public init(_ reason: String, _ SQLState: String? = nil) {
         self.reason = reason
         self.SQLState = SQLState
+        super.init(reason)
     }
 }

@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "RDError",
+        "repositoryURL": "git@github.com:drrost/swift-error.git",
+        "state": {
+          "branch": null,
+          "revision": "61318ea81c07383188da9f05b2537587066dfd1f",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "ExtensionsFoundation",
+        "repositoryURL": "git@github.com:drrost/swift-extensions-foundation.git",
+        "state": {
+          "branch": null,
+          "revision": "d3fb59b401c891c9666676e6712997429445003d",
+          "version": "0.0.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

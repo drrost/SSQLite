@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ExtensionsFoundation
 
 public class DriverManager {
 
@@ -19,11 +20,15 @@ public class DriverManager {
             throw SQLException("The url is not valid", "08002")
         }
 
+        guard url.fileExists() else {
+            throw SQLException("File does not exist", "08003")
+        }
+
         return SQLiteConnection(url)
     }
 
     static func isValidUrl(_ url: String?) -> Bool {
-        if let url = url, url.starts(with: "file:/") {
+        if let url = url, url.count > 0 {
             return true
         }
         return false

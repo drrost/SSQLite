@@ -1,5 +1,4 @@
-// swift-tools-version:5.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -11,13 +10,26 @@ let package = Package(
             targets: ["SSQLite"]),
     ],
     dependencies: [
+        .package(
+            name: "ExtensionsFoundation",
+            url: "git@github.com:drrost/swift-extensions-foundation.git",
+            from: "0.0.1"),
+        .package(
+            name: "RDError",
+            url: "git@github.com:drrost/swift-error.git",
+            from: "1.0.0")
     ],
     targets: [
         .target(
             name: "SSQLite",
-            dependencies: []),
+            dependencies: ["ExtensionsFoundation", "RDError"]),
         .testTarget(
             name: "SSQLiteTests",
-            dependencies: ["SSQLite"]),
+            dependencies: ["SSQLite"],
+            resources: [
+                .process("ResourcesTest")
+            ]
+        )
     ]
 )
+

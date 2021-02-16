@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import ExtensionsFoundation
 
 @testable import SSQLite
 
@@ -51,14 +52,31 @@ class DriverManagerTests: XCTestCase {
 
     func testNoFileUrlThrows() {
         // Given
+        let dbName = "user.db"
+        let url = Bundle.module.path(for: dbName)! + "abc"
+
+
         // When
-        // Then
+        XCTAssertThrowsError(try DriverManager.getConnection(url), "") { error in
+
+            // Then
+            guard let error = error as? SQLException else {
+                XCTAssertTrue(false, "error must be type of SQLException")
+                return
+            }
+
+            XCTAssertEqual(error.reason, "File does not exist")
+            XCTAssertEqual(error.SQLState, "08003")
+        }
     }
 
     func testCorrectUrlCreatesConnection() {
         // Given
+        let dbName = "user.db"
+        let url = Bundle.module.path(for: dbName)
+
         // When
-        // Then
+        XCTAssertNoThrow(try DriverManager.getConnection(url),
+                         "getConnection should not throw for exiested path")
     }
 }
-
