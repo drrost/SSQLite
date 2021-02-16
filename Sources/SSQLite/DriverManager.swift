@@ -20,11 +20,11 @@ public class DriverManager {
             throw SQLException("The url is not valid", "08002")
         }
 
-        guard url.fileExists() else {
+        guard FileManager.exists(url) else {
             throw SQLException("File does not exist", "08003")
         }
 
-        return SQLiteConnection(url)
+        return try SQLiteConnection(url)
     }
 
     static func isValidUrl(_ url: String?) -> Bool {

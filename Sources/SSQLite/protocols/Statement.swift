@@ -9,7 +9,7 @@ import Foundation
 
 public protocol Statement {
 
-    func executeQuery(_ sql: String) throws -> ResultSet;
-    func executeUpdate(_ sql: String) throws -> Int;
-    func close() throws;
+    func executeQuery(_ sql: String) throws -> ResultSet
+    func executeUpdate(_ sql: String) throws -> Int
+    func close() throws
 }

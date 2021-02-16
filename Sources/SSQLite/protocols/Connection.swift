@@ -9,8 +9,8 @@ import Foundation
 
 public protocol Connection {
 
-    func createStatement() throws -> Statement;
-    func prepareStatement(_ sql: String) throws -> PreparedStatement;
-    func close() throws;
-    func isClosed() throws -> Bool;
+    func createStatement() throws -> Statement
+    func prepareStatement(_ sql: String) throws -> PreparedStatement
+    func close() throws
+    func isClosed() throws -> Bool
 }
