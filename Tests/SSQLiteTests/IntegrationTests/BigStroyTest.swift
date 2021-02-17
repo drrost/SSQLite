@@ -15,11 +15,35 @@ class BigStroyTest: XCTestCase {
 
     func testBigStory() {
 
-        let dbManager = DBManager()
-        let connection = try! dbManager.connect()
+        let dbManager = DBManager()                                         // 1
+        let connection = try! dbManager.connect()                           // 2
 
-        // Get an empty existed file with data base
-        // Copy it in a new place
+        let initSql = Bundle.module.path(for: "init.sql")
+        let sql = try! String(contentsOf: initSql!)                         // 3
+
+        var userList = [User2]()
+        do {
+            let statement = try connection.createStatement()                // 4
+            let rs = try statement.executeQuery(sql)                        // 5
+
+            while try rs.next() {                                           // 6
+                let user = User2()
+                user.id = try rs.getInt("id")                               // 7
+                user.firstName = try rs.getString("first_name")             // 8
+                user.lastName = try rs.getString("last_name")               // 9
+                user.age = try rs.getInt("age")                            // 10
+                userList.append(user)
+            }
+        } catch {
+            XCTAssertTrue(false, "code above should not throw")
+        }
+
+        XCTAssertEqual(10, userList.count)
+
+        // Run it on the connection
+        // Make a SELECT
+        // Check if there is correct data there
+
         // Create a table
         // Insert several rows
         // Select the rows
@@ -39,3 +63,4 @@ class BigStroyTest: XCTestCase {
         // Then
     }
 }
+
