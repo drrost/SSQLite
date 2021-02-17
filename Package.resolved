@@ -15,8 +15,8 @@
         "repositoryURL": "git@github.com:drrost/swift-extensions-foundation.git",
         "state": {
           "branch": null,
-          "revision": "bcb75fa337d329945c1fecaa3832dffb107c94c0",
-          "version": "1.0.0"
+          "revision": "df180aefdf575f7253c884e972ff289c8f019308",
+          "version": "1.0.3"
         }
       }
     ]

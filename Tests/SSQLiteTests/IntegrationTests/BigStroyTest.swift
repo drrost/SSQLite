@@ -15,6 +15,9 @@ class BigStroyTest: XCTestCase {
 
     func testBigStory() {
 
+        let dbManager = DBManager()
+        let connection = try! dbManager.connect()
+
         // Get an empty existed file with data base
         // Copy it in a new place
         // Create a table
@@ -28,11 +31,11 @@ class BigStroyTest: XCTestCase {
         // Process a big SQL script that creates several tables, inserts data,
         // creates triggers.
 
+        try! dbManager.erase()
+
 
         // Given
         // When
         // Then
     }
-
 }
-

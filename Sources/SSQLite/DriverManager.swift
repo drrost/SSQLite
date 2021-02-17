@@ -10,7 +10,7 @@ import ExtensionsFoundation
 
 public class DriverManager {
 
-    static func getConnection(_ url: String?) throws -> Connection {
+    public static func getConnection(_ url: String?) throws -> Connection {
 
         guard let url = url else {
             throw SQLException("The url cannot be null", "08001")
