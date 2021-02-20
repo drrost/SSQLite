@@ -13,7 +13,7 @@ class BigStroyTest: XCTestCase {
 
     // MARK: - Init tests
 
-    func DISABLED_testBigStory() {
+    func testBigStory() {
 
         let dbManager = DBManager()                                         // 1
         let connection = try! dbManager.connect()                           // 2
@@ -21,13 +21,13 @@ class BigStroyTest: XCTestCase {
         let initSql = Bundle.module.path(for: "init.sql")
         let sql = try! String(contentsOf: initSql!)                         // 3
 
-        var userList = [User2]()
+        var userList = [User]()
         do {
             let statement = try connection.createStatement()                // 4
             let rs = try statement.executeQuery(sql)                        // 5
 
             while try rs.next() {                                           // 6
-                let user = User2()
+                let user = User()
                 user.id = try rs.getInt("id")                               // 7
                 user.firstName = try rs.getString("first_name")             // 8
                 user.lastName = try rs.getString("last_name")               // 9
@@ -55,7 +55,7 @@ class BigStroyTest: XCTestCase {
         // Process a big SQL script that creates several tables, inserts data,
         // creates triggers.
 
-        try! dbManager.erase()
+       // try! dbManager.erase()
 
 
         // Given

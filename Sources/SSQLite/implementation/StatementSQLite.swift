@@ -39,8 +39,9 @@ class StatementSQLite: Statement {
         return try getResultSet()
     }
 
-    func executeUpdate(_ sql: String) throws -> Int {
-        throw RDError("Method is not implmeneted")
+    func executeUpdate(_ sql: String) throws -> Int32 {
+        _ = try executeQuery(sql)
+        return sqlite3_step(nativeStatement)
     }
 
     func close() throws {

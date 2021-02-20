@@ -1,5 +1,5 @@
 //
-//  SimpleSelectTest.swift
+//  SelectTest.swift
 //
 //
 //  Created by Rostyslav Druzhchenko on 20.02.2021.
@@ -9,7 +9,7 @@ import XCTest
 
 @testable import SSQLite
 
-class SimpleSelectTest: XCTestCase {
+class SelectTest: XCTestCase {
 
     // MARK: - Init tests
 
