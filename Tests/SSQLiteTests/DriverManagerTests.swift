@@ -14,6 +14,16 @@ class DriverManagerTests: XCTestCase {
 
     // MARK: - Init tests
 
+    func testCorrectUrlCreatesConnection() {
+        // Given
+        let dbName = "user.db"
+        let url = Bundle.module.path(for: dbName)
+
+        // When
+        XCTAssertNoThrow(try DriverManager.getConnection(url),
+                         "getConnection should not throw for exiested path")
+    }
+
     func testNullUrlThrows() {
         // Given
         let url: String? = nil
@@ -68,15 +78,5 @@ class DriverManagerTests: XCTestCase {
             XCTAssertEqual(error.reason, "File does not exist")
             XCTAssertEqual(error.SQLState, "08003")
         }
-    }
-
-    func testCorrectUrlCreatesConnection() {
-        // Given
-        let dbName = "user.db"
-        let url = Bundle.module.path(for: dbName)
-
-        // When
-        XCTAssertNoThrow(try DriverManager.getConnection(url),
-                         "getConnection should not throw for exiested path")
     }
 }

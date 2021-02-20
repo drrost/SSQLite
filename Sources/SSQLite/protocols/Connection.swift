@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol Connection {
+public protocol Connection: AnyObject {
+
+    func getDb() -> DB?
 
     func createStatement() throws -> Statement
     func prepareStatement(_ sql: String) throws -> PreparedStatement

@@ -37,7 +37,7 @@ class DBManager {
         let path = FileManager.default.currentDirectoryPath
         #endif
 
-        return path.appending("/db").appending("db.sqlite")
+        return path.appendingPathComponent("db").appendingPathComponent("db.sqlite")
     }
 
     private func createDbFile() throws {

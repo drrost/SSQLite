@@ -8,6 +8,8 @@
 import Foundation
 import SQLite3
 
+public typealias DB = OpaquePointer
+
 class SQLiteConnection: Connection {
 
     private let url: String
@@ -24,8 +26,12 @@ class SQLiteConnection: Connection {
         self.db = _db
     }
 
+    func getDb() -> DB? {
+        db
+    }
+
     func createStatement() throws -> Statement {
-        throw SQLException("Not implemented yet", "000000")
+        StatementSQLite(self)
     }
 
     func prepareStatement(_ sql: String) throws -> PreparedStatement {

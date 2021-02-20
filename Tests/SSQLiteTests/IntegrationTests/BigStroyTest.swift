@@ -13,7 +13,7 @@ class BigStroyTest: XCTestCase {
 
     // MARK: - Init tests
 
-    func testBigStory() {
+    func DISABLED_testBigStory() {
 
         let dbManager = DBManager()                                         // 1
         let connection = try! dbManager.connect()                           // 2

@@ -6,8 +6,8 @@
         "repositoryURL": "git@github.com:drrost/swift-error.git",
         "state": {
           "branch": null,
-          "revision": "61318ea81c07383188da9f05b2537587066dfd1f",
-          "version": "1.0.1"
+          "revision": "093f2e8a484b601b119add0c0798e4ab190fbf1a",
+          "version": "1.0.4"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "git@github.com:drrost/swift-extensions-foundation.git",
         "state": {
           "branch": null,
-          "revision": "8f7011473f24167c9cd49a39eb4f0ec734d23dd6",
-          "version": "1.0.4"
+          "revision": "8aa4de67560e1057005a016a589a1b00af2b2c73",
+          "version": "1.0.8"
         }
       }
     ]

@@ -144,7 +144,7 @@ extension XCTestCase {
     }
 }
 
-struct User {
+class User {
 
     // MARK: - Variables
 
@@ -154,6 +154,8 @@ struct User {
     var age: Int = 0
 
     // MARK: - Init
+
+    init() {}
 
     init(with row: Row) {
 

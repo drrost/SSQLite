@@ -7,9 +7,13 @@
 
 import Foundation
 
-public protocol Statement {
+public protocol Statement: AnyObject {
 
     func executeQuery(_ sql: String) throws -> ResultSet
     func executeUpdate(_ sql: String) throws -> Int
     func close() throws
+
+    func getResultSet() throws -> ResultSet
+
+    func getNative() -> StatementNative
 }

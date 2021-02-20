@@ -9,6 +9,9 @@ import Foundation
 
 public protocol ResultSet {
 
+    var columns: [String] { get set }
+    var row: Int { get set }
+
     func next() throws -> Bool
     func getInt(_ columnLabel: String) throws -> Int
     func getDouble(_ columnLabel: String) throws -> Double

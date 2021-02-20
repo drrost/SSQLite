@@ -13,9 +13,15 @@ public class SQLException: RDError {
     public let reason: String
     public let SQLState: String?
 
-    public init(_ reason: String, _ SQLState: String? = nil) {
+    public init(
+        _ reason: String,
+        detailed: String? = nil,
+        _ SQLState: String? = nil,
+        file: StaticString = #filePath,
+        line: UInt = #line) {
+
         self.reason = reason
         self.SQLState = SQLState
-        super.init(reason)
+        super.init(reason, detailed: detailed ?? "", file: file, line: line)
     }
 }
