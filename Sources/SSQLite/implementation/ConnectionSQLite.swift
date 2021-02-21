@@ -1,5 +1,5 @@
 //
-//  SQLiteConnection.swift
+//  ConnectionSQLite.swift
 //
 //
 //  Created by Rostyslav Druzhchenko on 15.02.2021.
@@ -10,7 +10,7 @@ import SQLite3
 
 public typealias DB = OpaquePointer
 
-class SQLiteConnection: Connection {
+class ConnectionSQLite: Connection {
 
     private let url: String
     private let db: OpaquePointer?
@@ -34,7 +34,7 @@ class SQLiteConnection: Connection {
     }
 
     func prepareStatement(_ sql: String) throws -> PreparedStatement {
-        throw SQLException("Not implemented yet", "000000")
+        PreparedStatementSqlite(self, sql)
     }
 
     func close() throws {

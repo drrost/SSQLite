@@ -1,5 +1,5 @@
 //
-//  BigStroyTest.swift
+//  RunSQLScriptTest.swift
 //
 //
 //  Created by Rostyslav Druzhchenko on 16.02.2021.
@@ -10,7 +10,7 @@ import SQLite3
 
 @testable import SSQLite
 
-class BigStroyTest: XCTestCase {
+class RunSQLScriptTest: XCTestCase {
 
     // MARK: - Init tests
 

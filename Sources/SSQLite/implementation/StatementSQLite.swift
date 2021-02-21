@@ -14,7 +14,7 @@ public typealias StatementNative = OpaquePointer
 
 class StatementSQLite: Statement {
 
-    private weak var connection: Connection?
+    weak var connection: Connection?
     private var rs: ResultSet!
     private var nativeStatement: OpaquePointer!
 
@@ -113,9 +113,7 @@ class StatementSQLite: Statement {
         return columnNames
     }
 
-    // MARK: - Private
-
-    private func getNativeError(_ db: OpaquePointer?) -> String {
+    func getNativeError(_ db: OpaquePointer?) -> String {
         return String(cString: sqlite3_errmsg(db))
     }
 }

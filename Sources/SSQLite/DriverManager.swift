@@ -24,7 +24,7 @@ public class DriverManager {
             throw SQLException("File does not exist", "08003")
         }
 
-        return try SQLiteConnection(url)
+        return try ConnectionSQLite(url)
     }
 
     static func isValidUrl(_ url: String?) -> Bool {

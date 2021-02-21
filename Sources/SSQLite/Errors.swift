@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  SQLException.swift
+//
 //
 //  Created by Rostyslav Druzhchenko on 15.02.2021.
 //
