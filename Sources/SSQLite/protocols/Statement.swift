@@ -12,8 +12,8 @@ public protocol Statement: AnyObject {
     func executeQuery(_ sql: String) throws -> ResultSet
     func executeUpdate(_ sql: String) throws -> Int32
     func close() throws
+    func exec(_ sql: String) throws
 
     func getResultSet() throws -> ResultSet
-
     func getNative() -> StatementNative
 }

@@ -18,8 +18,7 @@ class SQLiteConnection: Connection {
     init(_ url: String) throws {
         self.url = url
         var _db: OpaquePointer?
-        let result = sqlite3_open_v2(url, &_db, SQLITE_OPEN_READWRITE, nil)
-        if result != SQLITE_OK {
+        if sqlite3_open(url, &_db) != SQLITE_OK {
             let message = String(cString: sqlite3_errmsg(_db))
             throw SQLException(message)
         }

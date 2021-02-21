@@ -8,6 +8,7 @@
 import Foundation
 import RDError
 import SQLite3
+import ExtensionsFoundation
 
 public typealias StatementNative = OpaquePointer
 
@@ -40,12 +41,43 @@ class StatementSQLite: Statement {
     }
 
     func executeUpdate(_ sql: String) throws -> Int32 {
-        _ = try executeQuery(sql)
-        return sqlite3_step(nativeStatement)
+        // Avoid SQLITE_MISUSE error
+        guard sql.trimN().count > 0 else { return 0 }
+
+        guard let db = connection?.getDb() else {
+            throw SQLException("Can't prepare statement, connection is nil")
+        }
+
+        var statement: OpaquePointer?
+
+        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) != SQLITE_OK {
+            throw SQLException(
+                "Can't prepare statment with SQL: \"\(sql)\"",
+                detailed: getNativeError(db))
+        }
+
+        if sqlite3_step(statement) != SQLITE_DONE {
+            throw SQLException("sqlite3_step failed with error: \"\(getNativeError(db))\"")
+        }
+
+        sqlite3_finalize(statement)
+
+        return SQLITE_OK
+    }
+
+    func exec(_ sql: String) throws {
+        guard let db = connection?.getDb() else {
+            throw SQLException("Can't prepare statement, connection is nil")
+        }
+        
+        if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
+            throw SQLException(
+                "Can't execute SQL: \"\(sql)\"", detailed: getNativeError(db))
+        }
     }
 
     func close() throws {
-        throw RDError("Method is not implmeneted")
+        sqlite3_finalize(nativeStatement)
     }
 
     func getResultSet() throws -> ResultSet {
@@ -79,5 +111,11 @@ class StatementSQLite: Statement {
         }
 
         return columnNames
+    }
+
+    // MARK: - Private
+
+    private func getNativeError(_ db: OpaquePointer?) -> String {
+        return String(cString: sqlite3_errmsg(db))
     }
 }

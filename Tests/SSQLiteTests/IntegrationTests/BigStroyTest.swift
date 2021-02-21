@@ -6,8 +6,9 @@
 //
 
 import XCTest
+import SQLite3
 
-@testable import ExtensionsFoundation
+@testable import SSQLite
 
 class BigStroyTest: XCTestCase {
 
@@ -15,17 +16,30 @@ class BigStroyTest: XCTestCase {
 
     func testBigStory() {
 
+        // Given
+
         let dbManager = DBManager()                                         // 1
         let connection = try! dbManager.connect()                           // 2
 
         let initSql = Bundle.module.path(for: "init.sql")
-        let sql = try! String(contentsOf: initSql!)                         // 3
 
-        var userList = [User]()
         do {
+            let sql = try! String(contentsOf: initSql!)                     // 3
             let statement = try connection.createStatement()                // 4
-            let rs = try statement.executeQuery(sql)                        // 5
 
+            // When
+            try statement.exec(sql)
+        } catch {
+            XCTAssertTrue(false, "code above should not throw")
+        }
+
+        // Then
+        do {
+            let sql = "SELECT * FROM user;"
+            let statement = try connection.createStatement()                //
+            let rs = try statement.executeQuery(sql)                        //
+
+            var userList = [User]()
             while try rs.next() {                                           // 6
                 let user = User()
                 user.id = try rs.getInt("id")                               // 7
@@ -34,33 +48,16 @@ class BigStroyTest: XCTestCase {
                 user.age = try rs.getInt("age")                            // 10
                 userList.append(user)
             }
-        } catch {
+            XCTAssertEqual(7, userList.count)
+        } catch let error as SQLException {
+            print(error.message)
+            print(error.detailedMessage)
             XCTAssertTrue(false, "code above should not throw")
+        } catch {
+            XCTAssertTrue(
+                false, "The code should not throw any errors but SQLException")
         }
 
-        XCTAssertEqual(10, userList.count)
-
-        // Run it on the connection
-        // Make a SELECT
-        // Check if there is correct data there
-
-        // Create a table
-        // Insert several rows
-        // Select the rows
-        // Check the result
-        //
-
-        // Make the same for - update rows, delete rows, drop table
-
-        // Process a big SQL script that creates several tables, inserts data,
-        // creates triggers.
-
-       // try! dbManager.erase()
-
-
-        // Given
-        // When
-        // Then
+        try! dbManager.erase()
     }
 }
-

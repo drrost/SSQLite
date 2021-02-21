@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import SQLite3
 
 @testable import SSQLite
 
@@ -25,7 +26,7 @@ class CreateTableTest: XCTestCase {
         let code = try! statement.executeUpdate(sql)
 
         // Then
-        XCTAssertEqual(101, code)
+        XCTAssertEqual(SQLITE_OK, code)
     }
 
     func testCreateTableTwice_ThrowsError() {
@@ -38,7 +39,7 @@ class CreateTableTest: XCTestCase {
         // When
         let statement = try! connection.createStatement()
         let code = try! statement.executeUpdate(sql)
-        XCTAssertEqual(101, code)
+        XCTAssertEqual(SQLITE_OK, code)
 
         do {
             _ = try statement.executeUpdate(sql)
