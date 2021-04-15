@@ -1,6 +1,6 @@
 //
 //  Statement.swift
-//
+//  A part of git@github.com:drrost/SSQLite.git project
 //
 //  Created by Rostyslav Druzhchenko on 15.02.2021.
 //

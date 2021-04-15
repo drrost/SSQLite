@@ -1,6 +1,6 @@
 //
 //  PreparedStatementSqlite.swift
-//
+//  A part of git@github.com:drrost/SSQLite.git project
 //
 //  Created by Rostyslav Druzhchenko on 21.02.2021.
 //
